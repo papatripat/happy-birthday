@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Mini Games</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .games-hub {
+            padding: 2rem 0;
+        }
+
+        .games-hub .big-emoji {
+            font-size: 5rem;
+            text-align: center;
+            display: block;
+            margin-bottom: 1rem;
+            animation: bounceIn 0.8s ease;
+        }
+
+        /* Game Select Cards */
+        .game-select-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            padding: 1rem 0;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .game-select-card {
+            cursor: pointer;
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            transition: var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-select-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: 0.5s;
+        }
+
+        .game-select-card:hover::after {
+            left: 100%;
+        }
+
+        .game-select-card .game-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .game-select-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--pink-300);
+            margin-bottom: 0.5rem;
+        }
+
+        .game-select-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Game Area */
+        .game-area {
+            display: none;
+            padding: 1rem 0 3rem;
+        }
+
+        .game-area.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .game-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .game-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--pink-300);
+        }
+
+        .game-stats {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: var(--bg-glass);
+            border: var(--border-glass);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .stat strong {
+            color: var(--gold-500);
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.5rem;
+            transition: var(--transition-fast);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .back-btn:hover {
+            color: var(--text-primary);
+        }
+
+        /* ===== CATCH GAME ===== */
+        .catch-field {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(180deg, rgba(252, 211, 77, 0.05), rgba(244, 114, 182, 0.1));
+            border: var(--border-glass);
+            overflow: hidden;
+            cursor: none;
+        }
+
+        .gift {
+            position: absolute;
+            top: -50px;
+            font-size: 2.5rem;
+            animation: giftFall linear forwards;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        @keyframes giftFall {
+            from {
+                top: -50px;
+            }
+
+            to {
+                top: 550px;
+            }
+        }
+
+        .basket {
+            position: absolute;
+            bottom: 20px;
+            font-size: 3rem;
+            transition: left 0.05s linear;
+            user-select: none;
+            filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.4));
+        }
+
+        .lives-display {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .lives-display .heart {
+            font-size: 1.2rem;
+        }
+
+        .lives-display .heart.lost {
+            opacity: 0.3;
+        }
+
+        .catch-score-popup {
+            position: absolute;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold-500);
+            pointer-events: none;
+            animation: scorePopup 0.8s ease forwards;
+        }
+
+        @keyframes scorePopup {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-40px);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+
+            .catch-field {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="container">
+            <!-- GAME HUB -->
+            <div class="games-hub" id="gamesHub">
+                <span class="big-emoji">🎮</span>
+                <h1 class="section-title">Mini Games</h1>
+                <p class="section-subtitle">Pilih game favoritmu dan bersenang-senang! 🎉</p>
+
+                <div class="game-select-grid">
+
+
+                    <div class="glass-card game-select-card" onclick="startGame('catch')">
+                        <span class="game-icon">🎁</span>
+                        <h3>Catch the Gifts</h3>
+                        <p>Tangkap hadiah yang jatuh dengan keranjangmu</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <!-- CATCH GAME -->
+            <div class="game-area" id="catchGame">
+                <div class="game-header">
+                    <div>
+                        <button class="back-btn" onclick="backToHub()">← Kembali</button>
+                        <h2>🎁 Catch the Gifts</h2>
+                    </div>
+                    <div class="game-stats">
+                        <span class="stat">Skor: <strong id="catchScore">0</strong></span>
+                        <span class="stat"><span class="lives-display" id="livesDisplay"></span></span>
+                    </div>
+                </div>
+                <div class="catch-field" id="catchField">
+                    <div class="basket" id="basket">🧺</div>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <button class="btn btn-primary" onclick="startCatchGame()">🎁 Mulai Game</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="navigation.js"></script>
+    <script src="games.js"></script>
+</body>
+
+</html>

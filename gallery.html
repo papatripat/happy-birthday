@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📸 Gallery Kenangan</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        .gallery-card {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1;
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        .gallery-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .gallery-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .gallery-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .gallery-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .gallery-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .gallery-card:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .gallery-card:nth-child(7) {
+            animation-delay: 0.7s;
+        }
+
+        .gallery-card:nth-child(8) {
+            animation-delay: 0.8s;
+        }
+
+        .gallery-card:nth-child(9) {
+            animation-delay: 0.9s;
+        }
+
+        .gallery-card .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-slow);
+        }
+
+        .gallery-card .card-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(139, 92, 246, 0.15));
+            font-size: 3rem;
+        }
+
+        .card-image-placeholder small {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .gallery-card:hover .card-image {
+            transform: scale(1.1);
+        }
+
+        .gallery-card .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: linear-gradient(transparent, rgba(74, 32, 64, 0.75));
+            transform: translateY(100%);
+            transition: var(--transition-base);
+        }
+
+        .gallery-card:hover .card-overlay {
+            transform: translateY(0);
+        }
+
+        .card-overlay h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: #ffffff;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-overlay p {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(74, 32, 64, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .lightbox.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox-content {
+            animation: bounceIn 0.5s ease;
+            margin-bottom: 1rem;
+        }
+
+        .lightbox-content img {
+            max-width: 90vw;
+            max-height: 70vh;
+            border-radius: 16px;
+            object-fit: contain;
+        }
+
+        .lightbox-counter {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .lightbox-title {
+            color: #ffffff;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .lightbox-caption {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .lightbox-nav {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .lightbox-nav button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .lightbox-nav button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .gallery-header-emoji {
+            font-size: 5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            animation: bounceIn 0.8s ease;
+        }
+
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="container">
+            <div class="gallery-header-emoji">📸</div>
+            <h1 class="section-title">Gallery Kenangan</h1>
+            <p class="section-subtitle">Aku iseng buka gdrive, terus ga sengaja nemu foto-foto ini. Jadi sekalian aku
+                bikin gallery deh 💕</p>
+
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+        <div class="lightbox-content" id="lightboxContent"></div>
+        <h3 class="lightbox-title" id="lightboxTitle"></h3>
+        <p class="lightbox-caption" id="lightboxCaption"></p>
+        <p class="lightbox-counter" id="lightboxCounter"></p>
+        <div class="lightbox-nav">
+            <button onclick="event.stopPropagation(); navigateLightbox(-1)">◀</button>
+            <button onclick="event.stopPropagation(); closeLightbox(event)">✕</button>
+            <button onclick="event.stopPropagation(); navigateLightbox(1)">▶</button>
+        </div>
+    </div>
+
+    <script src="navigation.js"></script>
+    <script src="gallery.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎂 Birthday Cake</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .cake-section {
+            text-align: center;
+            padding: 2rem 0 4rem;
+        }
+
+        .cake-section .big-emoji {
+            font-size: 5rem;
+            display: block;
+            margin-bottom: 1rem;
+            animation: bounceIn 0.8s ease;
+        }
+
+        /* CSS Cake */
+        .cake-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0;
+        }
+
+        .cake-container {
+            position: relative;
+            width: 300px;
+        }
+
+        .cake-layer {
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .cake-layer-1 {
+            width: 280px;
+            height: 80px;
+            background: linear-gradient(180deg, #f9a8d4, #f472b6);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 8px 0 #db2777;
+        }
+
+        .cake-layer-2 {
+            width: 240px;
+            height: 70px;
+            background: linear-gradient(180deg, #fbcfe8, #f9a8d4);
+            border-radius: 20px 20px 0 0;
+            box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .cake-layer-3 {
+            width: 200px;
+            height: 60px;
+            background: linear-gradient(180deg, #fce7f3, #fbcfe8);
+            border-radius: 20px 20px 0 0;
+            box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .cake-frosting {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            width: 100%;
+            height: 20px;
+        }
+
+        .cake-frosting::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -5%;
+            width: 110%;
+            height: 25px;
+            background:
+                radial-gradient(ellipse at 10% 100%, transparent 8px, #fcd34d 8px, #fcd34d 14px, transparent 14px),
+                radial-gradient(ellipse at 30% 100%, transparent 8px, #fcd34d 8px, #fcd34d 14px, transparent 14px),
+                radial-gradient(ellipse at 50% 100%, transparent 8px, #fcd34d 8px, #fcd34d 14px, transparent 14px),
+                radial-gradient(ellipse at 70% 100%, transparent 8px, #fcd34d 8px, #fcd34d 14px, transparent 14px),
+                radial-gradient(ellipse at 90% 100%, transparent 8px, #fcd34d 8px, #fcd34d 14px, transparent 14px);
+        }
+
+        /* Candles */
+        .candles {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: -5px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .candle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .flame {
+            width: 14px;
+            height: 20px;
+            background: linear-gradient(to top, #ff6b35, #ffd700, #fff);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flicker 0.3s ease-in-out infinite alternate;
+            position: relative;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .flame.blown {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .flame::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, rgba(255, 200, 50, 0.6), transparent);
+            border-radius: 50%;
+            animation: glowPulse 1s ease-in-out infinite;
+        }
+
+        .flame.blown::before {
+            display: none;
+        }
+
+        .smoke {
+            width: 4px;
+            height: 0;
+            background: rgba(200, 200, 200, 0.4);
+            border-radius: 50%;
+            transition: height 0.5s;
+            opacity: 0;
+        }
+
+        .smoke.visible {
+            height: 20px;
+            opacity: 1;
+            animation: smokeRise 2s ease forwards;
+        }
+
+        @keyframes smokeRise {
+            0% {
+                opacity: 0.6;
+                height: 5px;
+            }
+
+            100% {
+                opacity: 0;
+                height: 30px;
+                transform: translateY(-20px);
+            }
+        }
+
+        .candle-stick {
+            width: 8px;
+            height: 40px;
+            border-radius: 3px;
+        }
+
+        .candle:nth-child(1) .candle-stick {
+            background: linear-gradient(180deg, #60a5fa, #3b82f6);
+        }
+
+        .candle:nth-child(2) .candle-stick {
+            background: linear-gradient(180deg, #f472b6, #ec4899);
+        }
+
+        .candle:nth-child(3) .candle-stick {
+            background: linear-gradient(180deg, #a78bfa, #8b5cf6);
+        }
+
+        .candle:nth-child(4) .candle-stick {
+            background: linear-gradient(180deg, #34d399, #10b981);
+        }
+
+        .candle:nth-child(5) .candle-stick {
+            background: linear-gradient(180deg, #fcd34d, #f59e0b);
+        }
+
+        @keyframes flicker {
+            0% {
+                transform: scaleY(1) scaleX(1) rotate(-2deg);
+            }
+
+            100% {
+                transform: scaleY(1.1) scaleX(0.9) rotate(2deg);
+            }
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.3);
+            }
+        }
+
+        /* Decorations on cake */
+        .cake-decoration {
+            position: absolute;
+            font-size: 1.2rem;
+        }
+
+        .cake-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Plate */
+        .cake-plate {
+            width: 320px;
+            height: 20px;
+            background: linear-gradient(180deg, #e8e8e8, #d4d4d4);
+            border-radius: 50%;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Action buttons */
+        .cake-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Wish Modal */
+        .wish-sparkle {
+            position: absolute;
+            font-size: 1.5rem;
+            pointer-events: none;
+            animation: wishSparkle 1s ease forwards;
+        }
+
+        @keyframes wishSparkle {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2) rotate(180deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .wish-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(244, 114, 182, 0.3);
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            resize: none;
+            margin: 1rem 0;
+            min-height: 100px;
+        }
+
+        .wish-input:focus {
+            outline: none;
+            border-color: var(--pink-400);
+            box-shadow: 0 0 20px rgba(244, 114, 182, 0.2);
+        }
+
+        .cut-line {
+            position: absolute;
+            width: 3px;
+            height: 0;
+            background: linear-gradient(180deg, transparent, #fcd34d, transparent);
+            left: 50%;
+            top: 0;
+            z-index: 10;
+            transition: height 1s ease;
+        }
+
+        .cut-line.active {
+            height: 100%;
+        }
+
+        .cake-container.cut .cake-layer-1 {
+            animation: cakeSplit 1s ease 0.5s forwards;
+        }
+
+        @keyframes cakeSplit {
+            0% {
+                clip-path: inset(0);
+            }
+
+            100% {
+                clip-path: inset(0 0 0 55%);
+            }
+        }
+
+        .cake-status {
+            margin-top: 1.5rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            color: var(--pink-300);
+            min-height: 40px;
+        }
+
+        @media (max-width: 480px) {
+            .cake-container {
+                transform: scale(0.8);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="container">
+            <div class="cake-section">
+                <span class="big-emoji">🎂</span>
+                <h1 class="section-title">Kue Ulang Tahun</h1>
+                <p class="section-subtitle">Tiup lilinnya dan buat permohonan! 🕯️✨</p>
+
+                <div class="cake-wrapper">
+                    <div class="cake-container" id="cakeContainer">
+                        <!-- Candles -->
+                        <div class="candles" id="candles">
+                            <div class="candle">
+                                <div class="smoke" id="smoke1"></div>
+                                <div class="flame" id="flame1"></div>
+                                <div class="candle-stick"></div>
+                            </div>
+                            <div class="candle">
+                                <div class="smoke" id="smoke2"></div>
+                                <div class="flame" id="flame2"></div>
+                                <div class="candle-stick"></div>
+                            </div>
+                            <div class="candle">
+                                <div class="smoke" id="smoke3"></div>
+                                <div class="flame" id="flame3"></div>
+                                <div class="candle-stick"></div>
+                            </div>
+                            <div class="candle">
+                                <div class="smoke" id="smoke4"></div>
+                                <div class="flame" id="flame4"></div>
+                                <div class="candle-stick"></div>
+                            </div>
+                            <div class="candle">
+                                <div class="smoke" id="smoke5"></div>
+                                <div class="flame" id="flame5"></div>
+                                <div class="candle-stick"></div>
+                            </div>
+                        </div>
+
+                        <!-- Cake Layers -->
+                        <div class="cake-layer cake-layer-3">
+                            <div class="cake-frosting"></div>
+                        </div>
+                        <div class="cake-layer cake-layer-2">
+                            <div class="cake-text">Happy Birthday!</div>
+                        </div>
+                        <div class="cake-layer cake-layer-1">
+                            <div class="cut-line" id="cutLine"></div>
+                        </div>
+
+                        <!-- Plate -->
+                        <div class="cake-plate"></div>
+                    </div>
+                </div>
+
+                <p class="cake-status" id="cakeStatus">✨ Tiup lilinnya untuk membuat permohonan! ✨</p>
+
+                <div class="cake-actions">
+                    <button class="btn btn-primary" id="blowBtn" onclick="blowCandles()">
+                        🌬️ Tiup Lilin
+                    </button>
+                    <button class="btn btn-gold" id="wishBtn" onclick="makeWish()" style="display: none;">
+                        ⭐ Buat Permohonan
+                    </button>
+                    <button class="btn btn-secondary" id="cutBtn" onclick="cutCake()" style="display: none;">
+                        🔪 Potong Kue
+                    </button>
+                    <button class="btn btn-secondary" id="resetBtn" onclick="resetCake()" style="display: none;">
+                        🔄 Ulangi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wish Modal -->
+    <div class="modal-overlay" id="wishModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeWishModal()">✕</button>
+            <div style="font-size: 4rem; margin-bottom: 1rem;">⭐</div>
+            <h2
+                style="font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--pink-300); margin-bottom: 0.5rem;">
+                Buat Permohonan</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">Tutup mata, buat harapan terbaikmu... ✨</p>
+            <textarea class="wish-input" id="wishInput" placeholder="Tuliskan permohonanmu di sini... 💫"></textarea>
+            <button class="btn btn-primary" onclick="submitWish()">💫 Kirim Permohonan</button>
+        </div>
+    </div>
+
+    <script src="navigation.js"></script>
+    <script src="cake.js"></script>
+</body>
+
+</html>
